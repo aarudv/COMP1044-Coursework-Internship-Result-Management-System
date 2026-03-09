@@ -28,13 +28,13 @@ body.dark-mode {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* 🌟 Custom Background Image Setup */
+/* Background Image Setup */
 body {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-        background-image: url('https://img.freepik.com/free-photo/internship-management-temporary-position-concept_53876-139703.jpg'); 
+        background-image: url('LoginPic.png'); 
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -47,7 +47,7 @@ body::before {
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.4); /* Change 0.4 to make it darker or lighter */
+    background: rgba(0, 0, 0, 0.4);
     z-index: -1;
 }
 
