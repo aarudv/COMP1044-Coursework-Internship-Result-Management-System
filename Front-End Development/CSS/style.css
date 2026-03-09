@@ -1,1 +1,196 @@
+/* Standard System Fonts & Variables */
+:root {
+    /* Glassmorphism background for the card */
+    --card-bg: rgba(255, 255, 255, 0.85); 
+    --text-main: #333333;
+    --text-muted: #666666;
+    --primary: #0056b3;
+    --primary-hover: #004494;
+    --input-border: #cccccc;
+    --input-bg: rgba(255, 255, 255, 0.9);
+}
 
+body.dark-mode {
+    /* Dark glassmorphism background */
+    --card-bg: rgba(30, 30, 30, 0.85); 
+    --text-main: #ffffff;
+    --text-muted: #bbbbbb;
+    --primary: #4da3ff;
+    --primary-hover: #1a8cff;
+    --input-border: #555555;
+    --input-bg: rgba(0, 0, 0, 0.6);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 🌟 Custom Background Image Setup */
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+        background-image: url('https://img.freepik.com/free-photo/internship-management-temporary-position-concept_53876-139703.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    z-index: 1;
+}
+
+/* This adds a subtle dark tint over your picture so the white card is easy to read */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4); /* Change 0.4 to make it darker or lighter */
+    z-index: -1;
+}
+
+/* Login Card Styling (Now with Frosted Glass Effect) */
+.login-container {
+    background: var(--card-bg);
+    /* This creates the frosted glass blur effect over your image */
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    width: 100%;
+    max-width: 400px;
+    transform: translateY(20px);
+    animation: slideUp 0.6s ease forwards;
+}
+
+@keyframes slideUp {
+    to { transform: translateY(0); }
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.login-header h2 {
+    color: var(--text-main);
+    margin-bottom: 5px;
+}
+
+.login-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* Inputs */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    color: var(--text-main);
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    background: var(--input-bg);
+    color: var(--text-main);
+    font-size: 15px;
+    outline: none;
+    transition: border 0.3s;
+}
+
+.input-group input:focus {
+    border-color: var(--primary);
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Button */
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+}
+
+.login-btn:hover {
+    background: var(--primary-hover);
+}
+
+.login-btn:active {
+    transform: scale(0.98);
+}
+
+/* Error Validation */
+.error-text {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-bottom: 15px;
+    display: none;
+    background: rgba(255, 77, 77, 0.1);
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ff4d4d;
+}
+
+/* Shake Animation for Invalid Login */
+.shake {
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    50% { transform: translateX(8px); }
+    75% { transform: translateX(-8px); }
+}
+
+/* Floating Theme Button */
+.theme-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background: var(--card-bg);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-main);
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.theme-btn:hover {
+    transform: scale(1.05);
+}
