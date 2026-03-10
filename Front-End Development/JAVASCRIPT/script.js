@@ -1,3 +1,4 @@
+// Safely grab elements (some might not exist on the current page)
 const loginForm = document.getElementById('loginForm');
 const loginCard = document.getElementById('loginCard');
 const usernameInput = document.getElementById('username');
@@ -8,56 +9,96 @@ const togglePasswordIcon = document.getElementById('showPasswordIcon');
 const themeToggleBtn = document.getElementById('themeToggle');
 const loginBtn = document.getElementById('loginBtn');
 
-// 1. Form Validation
-loginForm.addEventListener('submit', function(event) {
-    event.preventDefault(); 
+// 1. Form Validation (ONLY runs if the login form is on the screen)
+if (loginForm) {
+    loginForm.addEventListener('submit', function(event) {
+        event.preventDefault(); 
+        loginCard.classList.remove('shake');
+        void loginCard.offsetWidth; 
 
-    // Reset shake animation
-    loginCard.classList.remove('shake');
-    void loginCard.offsetWidth;
+        const usernameValue = usernameInput.value.trim();
+        const passwordValue = passwordInput.value.trim();
 
-    const usernameValue = usernameInput.value.trim();
-    const passwordValue = passwordInput.value.trim();
+        if (usernameValue === "" || passwordValue === "") {
+            errorTextSpan.textContent = "Please fill in both fields.";
+            errorMessage.style.display = "block";
+            loginCard.classList.add('shake'); 
+        } else {
+            errorMessage.style.display = "none";
+            loginBtn.textContent = "Authenticating... ⏳";
+            loginBtn.style.opacity = "0.8";
+            
+            setTimeout(() => {
+                alert("Validation passed! Ready to link to PHP dashboard.");
+                // Simulate redirect for testing:
+                window.location.href = "admin_dashboard.html";
+            }, 1000);
+        }
+    });
+}
 
-    // Prevent invalid/empty data
-    if (usernameValue === "" || passwordValue === "") {
-        errorTextSpan.textContent = "Please fill in both fields.";
-        errorMessage.style.display = "block";
-        loginCard.classList.add('shake');
-    } else {
-        errorMessage.style.display = "none";
+// 2. Password Toggle (ONLY runs on the login page)
+if (togglePasswordIcon) {
+    togglePasswordIcon.addEventListener('click', function() {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            this.textContent = '🙈'; 
+        } else {
+            passwordInput.type = 'password';
+            this.textContent = '👁️'; 
+        }
+    });
+}
+
+// 3. Dark Mode Toggle (Runs on ALL pages because the button is everywhere)
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
         
-        // Interactive Button State
-        loginBtn.textContent = "Authenticating... ⏳";
-        loginBtn.style.opacity = "0.8";
-        
-        // Simulate delay for effect
-        setTimeout(() => {
-            alert("Please Try Again!");
-            loginBtn.textContent = "Secure Login ➡️";
-            loginBtn.style.opacity = "1";
-        }, 1500);
-    }
-});
+        if (document.body.classList.contains('dark-mode')) {
+            this.textContent = '☀️ Light Mode';
+        } else {
+            this.textContent = '🌙 Dark Mode';
+        }
+    });
+}
 
-// 2. Clickable Emoji to Show/Hide Password
-togglePasswordIcon.addEventListener('click', function() {
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        this.textContent = '🙈';
-    } else {
-        passwordInput.type = 'password';
-        this.textContent = '👁️'
-    }
-});
+// --- DASHBOARD FUNCTIONS ---
 
-// 3. Dark Mode Toggle
-themeToggleBtn.addEventListener('click', function() {
-    document.body.classList.toggle('dark-mode');
+// 4. SPA Tab Switching
+function openTab(tabId) {
+    const contents = document.querySelectorAll('.tab-content');
+    contents.forEach(content => content.classList.remove('active-tab'));
+
+    const buttons = document.querySelectorAll('.tab-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+
+    document.getElementById(tabId).classList.add('active-tab');
+    event.currentTarget.classList.add('active');
+}
+
+// 5. Live Search Filter for Results Table
+function filterTable() {
+    const input = document.getElementById("searchBar");
+    const filter = input.value.toUpperCase();
+    const table = document.getElementById("resultsTable");
+    if(!table) return; // Exit if table isn't on page
     
-    if (document.body.classList.contains('dark-mode')) {
-        this.textContent = '☀️ Light Mode';
-    } else {
-        this.textContent = '🌙 Dark Mode';
+    const tr = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < tr.length; i++) { 
+        let tdID = tr[i].getElementsByTagName("td")[0]; 
+        let tdName = tr[i].getElementsByTagName("td")[1]; 
+        
+        if (tdID || tdName) {
+            let idValue = tdID.textContent || tdID.innerText;
+            let nameValue = tdName.textContent || tdName.innerText;
+            
+            if (idValue.toUpperCase().indexOf(filter) > -1 || nameValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = ""; 
+            } else {
+                tr[i].style.display = "none"; 
+            }
+        }
     }
-});
+}

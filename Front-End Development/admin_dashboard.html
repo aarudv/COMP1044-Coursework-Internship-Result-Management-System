@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Internship Management</title>
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body class="dashboard-body">
+
+    <nav class="top-nav">
+        <div class="nav-logo">🎓 Admin Portal</div>
+        <div class="nav-right-controls">
+            <button id="themeToggle" class="theme-btn dashboard-theme-btn">🌙 Dark Mode</button>
+            <button class="logout-btn" onclick="window.location.href='Login_Page.html'">🚪 Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <button class="tab-btn active" onclick="openTab('dashboardHome')">📊 System Overview</button>
+            <button class="tab-btn" onclick="openTab('userManage')">👥 Manage Users</button>
+            <button class="tab-btn" onclick="openTab('internManage')">🏢 Manage Internships</button>
+            <button class="tab-btn" onclick="openTab('viewResults')">📈 View Results</button>
+        </aside>
+
+        <main class="content-area">
+            
+            <section id="dashboardHome" class="tab-content active-tab">
+                <h2>Welcome back, System Admin</h2>
+                <div class="kpi-grid">
+                    <div class="kpi-card"><h3>150</h3><p>Total Students</p></div>
+                    <div class="kpi-card"><h3>12</h3><p>Active Assessors</p></div>
+                    <div class="kpi-card"><h3>45</h3><p>Internships Assigned</p></div>
+                </div>
+                
+                <div class="glass-panel" style="margin-top: 20px;">
+                    <h3>Recent System Activity</h3>
+                    <ul style="list-style: none; padding-top: 15px; color: var(--text-main); line-height: 2;">
+                        <li>🟢 <strong>Dr. Lee</strong> submitted marks for Alice Johnson.</li>
+                        <li>🔵 <strong>Admin</strong> assigned Bob Williams to TechCorp Solutions.</li>
+                        <li>🟠 <strong>Admin</strong> created a new Assessor account for Dr. Smith.</li>
+                        <li>🟢 <strong>Dr. Smith</strong> logged into the portal.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="userManage" class="tab-content">
+                <h2>Manage System Users</h2>
+                <p style="color: var(--text-muted); margin-bottom: 15px;">Add, update, or delete Student and Assessor profiles.</p>
+                
+                <div class="dashboard-grid">
+                    <div class="glass-panel">
+                        <h3>➕ Add New Student</h3>
+                        <form class="grid-form" style="margin-bottom: 30px;">
+                            <div class="input-group">
+                                <label>Student ID</label>
+                                <input type="text" placeholder="e.g. 1044123">
+                            </div>
+                            <div class="input-group">
+                                <label>Student Name</label>
+                                <input type="text" placeholder="Full Name">
+                            </div>
+                            <div class="input-group">
+                                <label>Programme</label>
+                                <input type="text" placeholder="e.g. Software Eng.">
+                            </div>
+                            <button type="button" class="login-btn">Save Student</button>
+                        </form>
+
+                        <h3>➕ Create Assessor Account</h3>
+                        <form class="grid-form">
+                            <div class="input-group">
+                                <label>Assessor Name</label>
+                                <input type="text" placeholder="e.g. Dr. Alan Turing">
+                            </div>
+                            <div class="input-group">
+                                <label>Email / Username</label>
+                                <input type="text" placeholder="alan@university.edu">
+                            </div>
+                            <button type="button" class="login-btn">Create Account</button>
+                        </form>
+                    </div>
+
+                    <div class="glass-panel" style="overflow-y: auto; max-height: 500px;">
+                        <h3>Registered Students</h3>
+                        <table class="data-table">
+                            <thead><tr><th>ID</th><th>Name</th><th>Programme</th><th>Action</th></tr></thead>
+                            <tbody>
+                                <tr><td>1001</td><td>Alice Johnson</td><td>Software Eng.</td><td><button>✏️</button> <button>🗑️</button></td></tr>
+                                <tr><td>1002</td><td>Bob Williams</td><td>Computer Sci.</td><td><button>✏️</button> <button>🗑️</button></td></tr>
+                                <tr><td>1003</td><td>Charlie Brown</td><td>Data Sci.</td><td><button>✏️</button> <button>🗑️</button></td></tr>
+                            </tbody>
+                        </table>
+
+                        <h3 style="margin-top: 30px;">Authorized Assessors</h3>
+                        <table class="data-table">
+                            <thead><tr><th>ID</th><th>Name</th><th>Email</th></tr></thead>
+                            <tbody>
+                                <tr><td>A01</td><td>Dr. Smith</td><td>smith@univ.edu</td></tr>
+                                <tr><td>A02</td><td>Dr. Lee</td><td>lee@univ.edu</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="internManage" class="tab-content">
+                <h2>Internship Assignments</h2>
+                
+                <div class="dashboard-grid">
+                    <div class="glass-panel">
+                        <h3>🔗 Assign Student to Assessor</h3>
+                        <form class="grid-form">
+                            <div class="input-group">
+                                <label>Select Student</label>
+                                <input type="text" placeholder="Search Student ID...">
+                            </div>
+                            <div class="input-group">
+                                <label>Assign Assessor</label>
+                                <input type="text" placeholder="Search Assessor Name...">
+                            </div>
+                            <div class="input-group" style="grid-column: span 2;">
+                                <label>Internship Company Name</label>
+                                <input type="text" placeholder="e.g. TechCorp Solutions">
+                            </div>
+                            <button type="button" class="login-btn">Confirm Assignment</button>
+                        </form>
+                    </div>
+
+                    <div class="glass-panel">
+                        <h3>Current Assignments</h3>
+                        <table class="data-table">
+                            <thead><tr><th>Student</th><th>Company</th><th>Assessor</th></tr></thead>
+                            <tbody>
+                                <tr><td>Alice J.</td><td>Google</td><td>Dr. Smith</td></tr>
+                                <tr><td>Bob W.</td><td>Microsoft</td><td>Dr. Lee</td></tr>
+                                <tr><td>Charlie B.</td><td>Amazon</td><td>Dr. Smith</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="viewResults" class="tab-content">
+                <h2>Student Results Overview</h2>
+                <div class="glass-panel">
+                    <div class="input-group" style="margin-bottom: 20px;">
+                        <input type="text" id="searchBar" placeholder="🔍 Live search by Student ID or Name..." onkeyup="filterTable()">
+                    </div>
+                    
+                    <table class="data-table" id="resultsTable">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Company</th>
+                                <th>Assessor</th>
+                                <th>Final Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1001</td><td>Alice Johnson</td><td>Google</td><td>Dr. Smith</td><td>85%</td></tr>
+                            <tr><td>1002</td><td>Bob Williams</td><td>Microsoft</td><td>Dr. Lee</td><td>92%</td></tr>
+                            <tr><td>1003</td><td>Charlie Brown</td><td>Amazon</td><td>Dr. Smith</td><td>78%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="JAVASCRIPT/script.js"></script>
+</body>
+</html>
