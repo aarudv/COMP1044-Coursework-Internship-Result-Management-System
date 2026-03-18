@@ -50,15 +50,24 @@ if (togglePasswordIcon) {
     });
 }
 
-// 3. Dark Mode Toggle (runs on ALL pages because the button is everywhere)
+// 3. Dark Mode Toggle
 if (themeToggleBtn) {
+    // A. Check memory immediately when the page loads
+    if (localStorage.getItem('themePreference') === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeToggleBtn.innerHTML = '☀️ Light Mode';
+    }
+
+    // B. Handle the button click and save the choice
     themeToggleBtn.addEventListener('click', function() {
         document.body.classList.toggle('dark-mode');
         
         if (document.body.classList.contains('dark-mode')) {
-            this.textContent = '☀️ Light Mode';
+            this.innerHTML = '☀️ Light Mode';
+            localStorage.setItem('themePreference', 'dark'); // Save to memory
         } else {
-            this.textContent = '🌙 Dark Mode';
+            this.innerHTML = '🌙 Dark Mode';
+            localStorage.setItem('themePreference', 'light'); // Save to memory
         }
     });
 }
@@ -78,17 +87,41 @@ if (themeToggleBtn) {
 
 // --- ADMIN DASHBOARD FUNCTIONS ---
 
-// 4. SPA Tab Switching
+// 4. SPA Tab Switching (Now with Memory!)
 function openTab(tabId) {
+    // Hide all tabs
     const contents = document.querySelectorAll('.tab-content');
     contents.forEach(content => content.classList.remove('active-tab'));
 
+    // Remove active styling from all buttons
     const buttons = document.querySelectorAll('.tab-btn');
     buttons.forEach(btn => btn.classList.remove('active'));
 
-    document.getElementById(tabId).classList.add('active-tab');
-    event.currentTarget.classList.add('active');
+    // Show the selected tab
+    const selectedTab = document.getElementById(tabId);
+    if (selectedTab) {
+        selectedTab.classList.add('active-tab');
+    }
+
+    // Find the correct button and highlight it
+    const targetBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(tabId));
+    if (targetBtn) {
+        targetBtn.classList.add('active');
+    }
+
+    // Save this specific tab to memory!
+    localStorage.setItem('lastActiveTab', tabId);
 }
+
+// 4.5 Restore the saved tab when the dashboard loads
+window.addEventListener('DOMContentLoaded', () => {
+    const savedTab = localStorage.getItem('lastActiveTab');
+    
+    // If a saved tab exists, and we are actually on a page that has that tab, open it!
+    if (savedTab && document.getElementById(savedTab)) {
+        openTab(savedTab);
+    }
+});
 
 // 5. Live Search Filter for Results Table
 function filterTable() {
