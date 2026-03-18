@@ -175,3 +175,141 @@ if (markInputs.length > 0) {
         });
     });
 }
+
+
+
+
+
+
+
+
+// --- FEATURE: EXPORT TABLE TO CSV ---
+
+function downloadCSV(tableId, filename) {
+    const table = document.getElementById(tableId);
+    if (!table) return; // Stop if the table isn't on this page
+
+    let csv = [];
+    let rows = table.querySelectorAll("tr");
+    
+    // Loop through all rows
+    for (let i = 0; i < rows.length; i++) {
+        let row = [];
+        let cols = rows[i].querySelectorAll("td, th");
+        
+        // Loop through all columns in the row
+        for (let j = 0; j < cols.length; j++) {
+            // Get the text, remove any weird line breaks
+            let data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, "").trim();
+            
+            // If the data has a comma in it, wrap it in quotes so it doesn't break the CSV
+            if (data.includes(",")) {
+                data = `"${data}"`;
+            }
+            
+            // Exclude the "Action" column (with the edit/delete emojis) from the export
+            if (data !== "Action" && !data.includes("✏️")) {
+                row.push(data);
+            }
+        }
+        // Join the columns with a comma
+        if (row.length > 0) csv.push(row.join(","));
+    }
+
+    // Combine all rows with a newline and create a virtual file (Blob)
+    const csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
+    
+    // Create a temporary hidden link to trigger the download
+    const downloadLink = document.createElement("a");
+    downloadLink.download = filename;
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    downloadLink.style.display = "none";
+    
+    document.body.appendChild(downloadLink);
+    downloadLink.click(); // Click it automatically
+    document.body.removeChild(downloadLink); // Clean up
+
+    // Trigger the premium Toast Notification if you added it!
+    if (typeof showToast === "function") {
+        showToast("📥 CSV Exported Successfully!", "success");
+    } else {
+        alert("CSV Exported Successfully!"); // Fallback if no toast
+    }
+}
+
+// Attach the function to the Export Button
+const exportBtn = document.getElementById('exportCsvBtn');
+if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
+        // Targets the 'resultsTable' ID and names the downloaded file
+        downloadCSV('resultsTable', 'Student_Results_Export.csv');
+    });
+}
+
+
+
+// --- TOAST NOTIFICATION FUNCTION ---
+const toastContainer = document.createElement('div');
+toastContainer.className = 'toast-container';
+document.body.appendChild(toastContainer);
+
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    
+    toastContainer.appendChild(toast);
+    
+    // Slide in
+    setTimeout(() => toast.classList.add('show'), 10);
+    
+    // Slide out and remove after 3 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400); 
+    }, 3000);
+}
+
+// --- AUTO-SAVE DRAFT FUNCTION (Assessor Dashboard) ---
+const gradingForm = document.getElementById('gradingForm');
+
+if (gradingForm) {
+    const allInputs = gradingForm.querySelectorAll('input, textarea, select');
+
+    // 1. Load saved data when the page opens
+    window.addEventListener('load', () => {
+        allInputs.forEach(input => {
+            let saveKey = input.previousElementSibling ? input.previousElementSibling.textContent : 'commentBox';
+            let savedValue = localStorage.getItem(saveKey);
+            
+            if (savedValue) {
+                input.value = savedValue;
+                input.dispatchEvent(new Event('input')); // Recalculate live total
+            }
+        });
+    });
+
+    // 2. Save data instantly every time they type
+    allInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            let saveKey = this.previousElementSibling ? this.previousElementSibling.textContent : 'commentBox';
+            localStorage.setItem(saveKey, this.value);
+        });
+    });
+
+    // 3. Clear draft and show Toast on submit
+    const submitBtn = document.getElementById('submitMarksBtn');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', () => {
+            localStorage.clear(); 
+            showToast("✅ Assessment Submitted Successfully!", "success"); 
+            gradingForm.reset(); 
+            
+            // Reset the calculator text
+            const liveTotal = document.getElementById('liveTotal');
+            const gradeStatus = document.getElementById('gradeStatus');
+            if (liveTotal) liveTotal.textContent = "0"; 
+            if (gradeStatus) gradeStatus.textContent = "";
+        });
+    }
+}
