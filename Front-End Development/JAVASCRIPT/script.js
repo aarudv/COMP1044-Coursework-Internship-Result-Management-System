@@ -9,7 +9,7 @@ const togglePasswordIcon = document.getElementById('showPasswordIcon');
 const themeToggleBtn = document.getElementById('themeToggle');
 const loginBtn = document.getElementById('loginBtn');
 
-// 1. Form Validation (ONLY runs if the login form is on the screen)
+// 1. Form Validation (only runs if the login form is on the screen)
 if (loginForm) {
     loginForm.addEventListener('submit', function(event) {
         event.preventDefault(); 
@@ -37,7 +37,7 @@ if (loginForm) {
     });
 }
 
-// 2. Password Toggle (ONLY runs on the login page)
+// 2. Password Toggle (only runs on the login page)
 if (togglePasswordIcon) {
     togglePasswordIcon.addEventListener('click', function() {
         if (passwordInput.type === 'password') {
@@ -50,7 +50,7 @@ if (togglePasswordIcon) {
     });
 }
 
-// 3. Dark Mode Toggle (Runs on ALL pages because the button is everywhere)
+// 3. Dark Mode Toggle (runs on ALL pages because the button is everywhere)
 if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', function() {
         document.body.classList.toggle('dark-mode');
@@ -63,7 +63,20 @@ if (themeToggleBtn) {
     });
 }
 
-// --- DASHBOARD FUNCTIONS ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+// --- ADMIN DASHBOARD FUNCTIONS ---
 
 // 4. SPA Tab Switching
 function openTab(tabId) {
@@ -101,4 +114,64 @@ function filterTable() {
             }
         }
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+// --- ASSESSOR DASHBOARD: LIVE CALCULATOR ---
+
+const markInputs = document.querySelectorAll('.mark-input');
+const liveTotal = document.getElementById('liveTotal');
+const gradeStatus = document.getElementById('gradeStatus');
+
+if (markInputs.length > 0) {
+    markInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            
+            // 1. Validation: Enforce maximum weightages
+            let maxAllowed = parseFloat(this.getAttribute('data-max'));
+            let currentValue = parseFloat(this.value);
+
+            if (currentValue > maxAllowed) {
+                this.value = maxAllowed; // Force it down to the max
+                this.style.borderColor = '#ff4d4d'; // Flash red
+                setTimeout(() => this.style.borderColor = 'var(--input-border)', 800);
+            } else if (currentValue < 0) {
+                this.value = 0; // Prevent negative numbers
+            }
+
+            // 2. Calculation: Update Live Total
+            let currentTotal = 0;
+            markInputs.forEach(inp => {
+                let val = parseFloat(inp.value);
+                if (!isNaN(val)) {
+                    currentTotal += val;
+                }
+            });
+            
+            liveTotal.textContent = currentTotal;
+
+            // 3. Dynamic Grade Status (Pass/Fail Colors)
+            if (currentTotal >= 40) {
+                liveTotal.style.color = '#23d5ab'; // Greenish Pass
+                gradeStatus.textContent = "Status: PASS";
+                gradeStatus.style.color = '#23d5ab';
+            } else if (currentTotal > 0) {
+                liveTotal.style.color = '#ff4d4d'; // Red Fail
+                gradeStatus.textContent = "Status: FAIL";
+                gradeStatus.style.color = '#ff4d4d';
+            } else {
+                liveTotal.style.color = 'var(--primary)';
+                gradeStatus.textContent = "";
+            }
+        });
+    });
 }

@@ -4,8 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assessor Dashboard - Internship Management</title>
+    <link rel="stylesheet" href="CSS/style.css">
 </head>
-<body>
-    
+<body class="dashboard-body">
+
+    <nav class="top-nav">
+        <div class="nav-logo">📋 Assessor Portal</div>
+        <div class="nav-right-controls">
+            <button id="themeToggle" class="theme-btn dashboard-theme-btn">🌙 Dark Mode</button>
+            <button class="logout-btn" onclick="window.location.href='index.html'">🚪 Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <button class="tab-btn active" onclick="openTab('assessorHome')">📊 My Dashboard</button>
+            <button class="tab-btn" onclick="openTab('assessStudent')">✍️ Assess Student</button>
+            <button class="tab-btn" onclick="openTab('viewHistory')">📁 Assessment History</button>
+        </aside>
+
+        <main class="content-area">
+            
+            <section id="assessorHome" class="tab-content active-tab">
+                <h2>Welcome, Dr. Smith</h2>
+                <div class="kpi-grid">
+                    <div class="kpi-card"><h3>5</h3><p>Assigned Students</p></div>
+                    <div class="kpi-card"><h3>2</h3><p>Assessments Completed</p></div>
+                    <div class="kpi-card"><h3 style="color: #ff4d4d;">3</h3><p>Pending Assessments</p></div>
+                </div>
+            </section>
+
+            <section id="assessStudent" class="tab-content">
+                <h2>Student Assessment Form</h2>
+                <p style="color: var(--text-muted); margin-bottom: 15px;">Scores will calculate automatically. Maximum weightages are strictly enforced.</p>
+                
+                <div class="glass-panel">
+                    <form id="gradingForm" class="grid-form">
+                        
+                        <div class="input-group" style="grid-column: span 2;">
+                            <label>Select Assigned Student</label>
+                            <select class="custom-select" style="width: 100%; padding: 12px; border-radius: 6px; background: var(--input-bg); color: var(--text-main); border: 1px solid var(--input-border);">
+                                <option value="">-- Choose a student --</option>
+                                <option value="1001">1001 - Alice Johnson (Google)</option>
+                                <option value="1003">1003 - Charlie Brown (Amazon)</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Undertaking Tasks (10%)</label>
+                            <input type="number" class="mark-input" data-max="10" min="0" max="10" placeholder="Max 10">
+                        </div>
+                        <div class="input-group">
+                            <label>Health & Safety (10%)</label>
+                            <input type="number" class="mark-input" data-max="10" min="0" max="10" placeholder="Max 10">
+                        </div>
+                        <div class="input-group">
+                            <label>Connectivity/Knowledge (10%)</label>
+                            <input type="number" class="mark-input" data-max="10" min="0" max="10" placeholder="Max 10">
+                        </div>
+                        <div class="input-group">
+                            <label>Report Presentation (15%)</label>
+                            <input type="number" class="mark-input" data-max="15" min="0" max="15" placeholder="Max 15">
+                        </div>
+                        <div class="input-group">
+                            <label>Clarity of Language (10%)</label>
+                            <input type="number" class="mark-input" data-max="10" min="0" max="10" placeholder="Max 10">
+                        </div>
+                        <div class="input-group">
+                            <label>Lifelong Learning (15%)</label>
+                            <input type="number" class="mark-input" data-max="15" min="0" max="15" placeholder="Max 15">
+                        </div>
+                        <div class="input-group">
+                            <label>Project Management (15%)</label>
+                            <input type="number" class="mark-input" data-max="15" min="0" max="15" placeholder="Max 15">
+                        </div>
+                        <div class="input-group">
+                            <label>Time Management (15%)</label>
+                            <input type="number" class="mark-input" data-max="15" min="0" max="15" placeholder="Max 15">
+                        </div>
+
+                        <div class="input-group" style="grid-column: span 2;">
+                            <label>Qualitative Comments & Feedback</label>
+                            <textarea rows="4" placeholder="Provide justification for the scores given..." style="width: 100%; padding: 12px; border-radius: 6px; background: var(--input-bg); color: var(--text-main); border: 1px solid var(--input-border); resize: vertical;"></textarea>
+                        </div>
+
+                        <div class="score-display" style="grid-column: span 2; text-align: right; margin-top: 10px; margin-bottom: 20px;">
+                            <h2 style="color: var(--text-main);">Live Total: <span id="liveTotal" style="color: var(--primary); font-size: 32px;">0</span> / 100</h2>
+                            <p id="gradeStatus" style="font-weight: bold;"></p>
+                        </div>
+
+                        <button type="button" class="login-btn" id="submitMarksBtn">💾 Submit Final Assessment</button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="viewHistory" class="tab-content">
+                <h2>Completed Assessments</h2>
+                <div class="glass-panel">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Name</th>
+                                <th>Company</th>
+                                <th>Final Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1004</td><td>Diana Prince</td><td>Meta</td><td>88%</td><td>✅ Submitted</td></tr>
+                            <tr><td>1005</td><td>Evan Wright</td><td>Netflix</td><td>94%</td><td>✅ Submitted</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="JAVASCRIPT/script.js"></script>
 </body>
 </html>
