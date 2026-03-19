@@ -9,8 +9,11 @@ const togglePasswordIcon = document.getElementById('showPasswordIcon');
 const themeToggleBtn = document.getElementById('themeToggle');
 const loginBtn = document.getElementById('loginBtn');
 
-// 1. Form Validation (only runs if the login form is on the screen)
+// 1. Form Validation & Fake Authentication
 if (loginForm) {
+    // Grab the new helper link element
+    const contactAdminHelper = document.getElementById('contactAdminHelper');
+
     loginForm.addEventListener('submit', function(event) {
         event.preventDefault(); 
         loginCard.classList.remove('shake');
@@ -19,23 +22,36 @@ if (loginForm) {
         const usernameValue = usernameInput.value.trim();
         const passwordValue = passwordInput.value.trim();
 
+        // Check 1: Are fields completely empty?
         if (usernameValue === "" || passwordValue === "") {
             errorTextSpan.textContent = "Please fill in both fields.";
             errorMessage.style.display = "block";
+            contactAdminHelper.style.display = "none"; // Hide the link if they just forgot to type
             loginCard.classList.add('shake'); 
-        } else {
+        } 
+        // Check 2: Fake Database Authentication (For Video Demo)
+        else if (passwordValue !== "password123") {
+            errorTextSpan.textContent = "Incorrect password.";
+            errorMessage.style.display = "block";
+            contactAdminHelper.style.display = "block"; // SHOW the Contact Admin link!
+            loginCard.classList.add('shake');
+        } 
+        // Check 3: Success!
+        else {
             errorMessage.style.display = "none";
+            contactAdminHelper.style.display = "none";
+            
             loginBtn.textContent = "Authenticating... ⏳";
             loginBtn.style.opacity = "0.8";
             
             setTimeout(() => {
-                alert("Validation passed! Ready to link to PHP dashboard.");
-                // Simulate redirect for testing:
-                window.location.href = "admin_dashboard.html";
+                // Change this to whichever dashboard you want to test routing to
+                window.location.href = "admin_dashboard.html"; 
             }, 1000);
         }
     });
 }
+
 
 // 2. Password Toggle (only runs on the login page)
 if (togglePasswordIcon) {
