@@ -362,3 +362,40 @@ if (gradingForm) {
         });
     }
 }
+
+
+
+// --- EXTRA FEATURE: SMART ASSIGNMENT SYSTEM (Admin Dashboard) ---
+const smartAssignBtn = document.getElementById('smartAssignBtn');
+const assignAssessorInput = document.getElementById('assignAssessorInput');
+const smartAssignReason = document.getElementById('smartAssignReason');
+
+if (smartAssignBtn && assignAssessorInput) {
+    
+    // 1. Our fake database of Assessors with their current stats
+    const assessorsData = [
+        { name: "Dr. Smith", workload: 6, speed: "Average" },
+        { name: "Prof. Davis", workload: 8, speed: "Slow" },
+        { name: "Dr. Lee", workload: 2, speed: "Fast" } // Dr. Lee is clearly the best choice!
+    ];
+
+    smartAssignBtn.addEventListener('click', () => {
+        
+        // 2. The Algorithm: Find the assessor with the lowest workload
+        const bestAssessor = assessorsData.reduce((prev, current) => {
+            return (prev.workload < current.workload) ? prev : current;
+        });
+
+        // 3. Auto-fill the input box with the winner
+        assignAssessorInput.value = bestAssessor.name;
+        
+        // 4. Reveal the system's reasoning to the Admin
+        smartAssignReason.innerHTML = `💡 <strong>System Suggestion:</strong> ${bestAssessor.name} selected. Lowest current workload (${bestAssessor.workload} students) and ${bestAssessor.speed} grading speed.`;
+        smartAssignReason.style.display = "block";
+
+        // 5. Trigger your awesome Toast Notification!
+        if (typeof showToast === "function") {
+            showToast(`✨ Smart Assigned to ${bestAssessor.name}!`, 'success');
+        }
+    });
+}

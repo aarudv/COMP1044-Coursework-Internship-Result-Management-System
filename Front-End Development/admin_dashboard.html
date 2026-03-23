@@ -116,15 +116,21 @@
                                 <label>Select Student</label>
                                 <input type="text" placeholder="Search Student ID...">
                             </div>
+                            
                             <div class="input-group">
                                 <label>Assign Assessor</label>
-                                <input type="text" placeholder="Search Assessor Name...">
+                                <div style="display: flex; gap: 10px;">
+                                    <input type="text" id="assignAssessorInput" placeholder="Assessor Name..." style="flex-grow: 1;">
+                                    <button type="button" id="smartAssignBtn" class="theme-btn" style="position: static; padding: 12px; margin: 0;" title="Auto-Suggest Best Assessor">✨</button>
+                                </div>
+                                <small id="smartAssignReason" style="color: #23d5ab; display: none; margin-top: 8px; font-weight: bold; font-size: 12px;"></small>
                             </div>
+
                             <div class="input-group" style="grid-column: span 2;">
                                 <label>Internship Company Name</label>
                                 <input type="text" placeholder="e.g. TechCorp Solutions">
                             </div>
-                            <button type="button" class="login-btn">Confirm Assignment</button>
+                            <button type="button" class="login-btn" onclick="showToast('Student Assigned Successfully!', 'success')">Confirm Assignment</button>
                         </form>
                     </div>
 
