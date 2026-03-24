@@ -399,3 +399,44 @@ if (smartAssignBtn && assignAssessorInput) {
         }
     });
 }
+
+
+
+
+
+// --- DASHBOARD FORM VALIDATION ---
+
+function enableFormValidation(formId, successMessage) {
+    const form = document.getElementById(formId);
+    if (!form) return; 
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); 
+
+        let isValid = true;
+        const inputs = form.querySelectorAll('input[type="text"]');
+
+        inputs.forEach(input => {
+            if (input.value.trim() === "" && input.id !== "assignAssessorInput") {
+                isValid = false;
+                input.style.borderColor = '#ff4d4d'; 
+                setTimeout(() => input.style.borderColor = 'var(--input-border)', 2000);
+            }
+        });
+
+        if (!isValid) {
+            if (typeof showToast === "function") showToast("Error: Please fill in all fields.", "error");
+        } else {
+            if (typeof showToast === "function") showToast(successMessage, "success");
+            form.reset();
+            
+            const reasonText = document.getElementById('smartAssignReason');
+            if (reasonText) reasonText.style.display = 'none';
+        }
+    });
+}
+
+// Activate the validation
+enableFormValidation('addStudentForm', '✅ Student Profile Saved!');
+enableFormValidation('addAssessorForm', '✅ Assessor Account Created!');
+enableFormValidation('assignInternshipForm', '✅ Internship Assigned Successfully!');

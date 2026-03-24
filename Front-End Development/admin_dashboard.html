@@ -12,7 +12,7 @@
         <div class="nav-logo">🎓 Admin Portal</div>
         <div class="nav-right-controls">
             <button id="themeToggle" class="theme-btn dashboard-theme-btn">🌙 Dark Mode</button>
-            <button class="logout-btn" onclick="window.location.href='Login_Page.html'">🚪 Logout</button>
+            
         </div>
     </nav>
 
@@ -22,6 +22,8 @@
             <button class="tab-btn" onclick="openTab('userManage')">👥 Manage Users</button>
             <button class="tab-btn" onclick="openTab('internManage')">🏢 Manage Internships</button>
             <button class="tab-btn" onclick="openTab('viewResults')">📈 View Results</button>
+
+            <button class="logout-btn sidebar-logout" onclick="window.location.href='Login_Page.html'">🚪 Logout</button>
         </aside>
 
         <main class="content-area">
@@ -52,7 +54,7 @@
                 <div class="dashboard-grid">
                     <div class="glass-panel">
                         <h3>➕ Add New Student</h3>
-                        <form class="grid-form" style="margin-bottom: 30px;">
+                        <form class="grid-form" id="addStudentForm">
                             <div class="input-group">
                                 <label>Student ID</label>
                                 <input type="text" placeholder="e.g. 1044123">
@@ -65,11 +67,11 @@
                                 <label>Programme</label>
                                 <input type="text" placeholder="e.g. Software Eng.">
                             </div>
-                            <button type="button" class="login-btn">Save Student</button>
+                            <button type="submit" class="login-btn">Save Student</button>
                         </form>
 
                         <h3>➕ Create Assessor Account</h3>
-                        <form class="grid-form">
+                        <form class="grid-form" id="addAssessorForm">
                             <div class="input-group">
                                 <label>Assessor Name</label>
                                 <input type="text" placeholder="e.g. Dr. Alan Turing">
@@ -78,7 +80,7 @@
                                 <label>Email / Username</label>
                                 <input type="text" placeholder="alan@university.edu">
                             </div>
-                            <button type="button" class="login-btn">Create Account</button>
+                            <button type="submit" class="login-btn">Create Account</button>
                         </form>
                     </div>
 
@@ -111,7 +113,7 @@
                 <div class="dashboard-grid">
                     <div class="glass-panel">
                         <h3>🔗 Assign Student to Assessor</h3>
-                        <form class="grid-form">
+                        <form class="grid-form" id="assignInternshipForm">
                             <div class="input-group">
                                 <label>Select Student</label>
                                 <input type="text" placeholder="Search Student ID...">
@@ -130,7 +132,7 @@
                                 <label>Internship Company Name</label>
                                 <input type="text" placeholder="e.g. TechCorp Solutions">
                             </div>
-                            <button type="button" class="login-btn" onclick="showToast('Student Assigned Successfully!', 'success')">Confirm Assignment</button>
+                            <button type="submit" class="login-btn">Confirm Assignment</button>
                         </form>
                     </div>
 
