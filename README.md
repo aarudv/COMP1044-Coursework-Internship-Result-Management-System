@@ -14,7 +14,7 @@ Internship Result Management System. A full-stack web application (PHP, MySQL, J
 ## How to Run
 
 ### 1. Move Files
-Extract the project and place the folder into:
+Extract the project(back-end development folder) and place the folder into:
 
 ```
 MAMP/htdocs/
