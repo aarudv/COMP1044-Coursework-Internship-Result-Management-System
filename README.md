@@ -5,7 +5,7 @@ Internship Result Management System. A full-stack web application (PHP, MySQL, J
 # Project Setup
 
 ## Requirements
-- MAMP (or XAMPP)
+- MAMP
 - Web browser
 - phpMyAdmin
 
