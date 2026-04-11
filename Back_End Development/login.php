@@ -1,0 +1,58 @@
+<?php
+// if already logged in, skip straight to dashboard
+session_start();
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+    if ($_SESSION['role'] === 'admin') {
+        header("Location: admin_dashboard.php");
+    } else {
+        header("Location: assessor_dashboard.php");
+    }
+    exit;
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Internship Management</title>
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+    <button id="themeToggle" class="theme-btn">🌙 Dark Mode</button>
+
+    <div class="login-container" id="loginCard">
+        <div class="login-header">
+            <h2>🎓 Internship Portal</h2>
+            <p>Welcome back! Please login to continue.</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">User ID / Username</label>
+                <input type="text" id="username" placeholder="Enter your ID" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" placeholder="Enter your password">
+                    <span class="toggle-password" id="showPasswordIcon">👁️</span>
+                </div>
+            </div>
+
+            <div id="errorMessage" class="error-text">
+                ⚠️ <span id="errorTextSpan"></span>
+            </div>
+
+            <div id="contactAdminHelper" style="display: none; margin-bottom: 20px; font-size: 14px; text-align: center;">
+                <span style="color: var(--text-muted);">Need help?</span>
+                <a href="mailto:admin@notthingham.edu?subject=Password Reset Request&body=Hello Admin, I am locked out of my account. Please help me reset my password." style="color: var(--primary); text-decoration: none; font-weight: bold;">Contact System Admin</a>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">Secure Login ➡️</button>
+        </form>
+    </div>
+
+    <script src="JAVASCRIPT/script.js"></script>
+</body>
+</html>
